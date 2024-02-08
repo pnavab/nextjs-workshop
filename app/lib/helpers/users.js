@@ -17,5 +17,10 @@ export async function getAllUsers() {
 }
 
 export async function getUserById(id) {
-
+  await mongoConnect();
+  const data = await User.findById(id);
+  return {
+    userID: data._id,
+    username: data.username,
+  }
 }
