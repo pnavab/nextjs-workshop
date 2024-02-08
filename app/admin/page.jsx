@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../lib/helpers/users";
+import { deleteUserbyID, getAllUsers } from "../lib/helpers/users";
 import Link from "next/link";
 
 export default function Page() {
@@ -31,6 +31,10 @@ export default function Page() {
       setError(true);
     }
   };
+  async function deleteUser(id) {
+    const res = await deleteUserbyID(id);
+    if(res.status === 200) loadData();
+  }
   async function loadData() {
     const userData = await getAllUsers();
     setUsers(userData);
@@ -62,7 +66,7 @@ export default function Page() {
               <span>
                 <Link className="ml-8 text-blue-500 hover:underline" href={`/admin/${user.userID}`}>View</Link>
               </span>
-              <button></button>
+              <button onClick={(e) => deleteUser(user.userID)} className="ml-10 text-red-500 hover:underline">Delete</button>
             </div>
           </div>
         ))}

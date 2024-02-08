@@ -24,3 +24,20 @@ export async function getUserById(id) {
     username: data.username,
   }
 }
+
+
+export async function deleteUserbyID(id) {
+  try {
+    await mongoConnect(); // Connect to MongoDB
+    const data = await User.deleteOne({ _id: id }); // Delete user by id
+
+    if (data.deletedCount === 0) {
+      return { status: 400 }; // User not found or not deleted
+    }
+
+    return { status: 200 }; // User deleted successfully
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw error; // Rethrow error for handling in higher levels
+  }
+}
